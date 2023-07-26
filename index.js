@@ -17,9 +17,9 @@ app.use(express.static(__dirname + '/public'));
 
 mongoose.set('strictQuery', false);
 mongoose.connect("mongodb+srv://admin-rk:Test123@cluster0.thlm6db.mongodb.net/todolistDB", { useNewUrlParser: true }).then(() => {
-    // console.log("Connected to MongoDB");
+    console.log("Connected to MongoDB");
 }).catch(() => {
-    // console.log("Failed to connect to MongoDB");
+    console.log("Failed to connect to MongoDB");
 });
 
 const itemsSchema = new mongoose.Schema({
