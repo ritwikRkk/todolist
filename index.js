@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _= require("lodash");
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 // const date = require(__dirname + "/date.js");
 // // console.log(date);
 
