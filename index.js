@@ -2,10 +2,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _= require("lodash");
-const PORT = process.env.PORT;
+require('dotenv').config()
 // const date = require(__dirname + "/date.js");
 // // console.log(date);
 
+const PORT = process.env.PORT;
 
 const app = express();
 
