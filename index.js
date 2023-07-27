@@ -15,8 +15,13 @@ app.use(express.static(__dirname + '/public'));
 
 //mongodb://127.0.0.1:27017/todolistDB
 
-mongoose.set('strictQuery', false);
-mongoose.connect("mongodb+srv://admin-rk:Test123@cluster0.thlm6db.mongodb.net/todolistDB", { useNewUrlParser: true }).then(() => {
+// mongoose.set('strictQuery', false);
+// mongoose.connect("mongodb+srv://admin-rk:Test123@cluster0.thlm6db.mongodb.net/todolistDB", { useNewUrlParser: true }).then(() => {
+//     console.log("Connected to MongoDB");
+// }).catch(() => {
+//     console.log("Failed to connect to MongoDB");
+// });
+mongoose.connect("mongodb+srv://admin-rk:Test123@cluster0.thlm6db.mongodb.net/todolistDB?retryWrites=true&w=majority").then(() => {
     console.log("Connected to MongoDB");
 }).catch(() => {
     console.log("Failed to connect to MongoDB");
@@ -44,38 +49,6 @@ const listSchema=  new mongoose.Schema({
 });
 const List = mongoose.model('List', listSchema);
 
-
-// let items = [];
-// let workItems = [];
-
-// To render "weekday" and "weekend"
-// app.get("/", function(req, res){
-
-//     let today = new Date();
-//     let currentDay = today.getDay();
-//     let day = "";
-
-//     if(currentDay == 6 || currentDay == 0){
-//         day = "weekend";
-//     }
-//     else{
-//         day = "weekday";
-//     }
-//     res.render("list", {kindOfDay: day});
-//     // res.send("Hello");
-// });
-
-// To render the exact day of week
-// app.get("/", function(req, res){
-
-//     let today = new Date();
-//     let currentDay = today.getDay();
-//     const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-//     let day = weekday[currentDay];
-
-//     res.render("list", {kindOfDay: day});
-
-// });
 
 app.get("/", function (req, res) {
 
@@ -131,11 +104,6 @@ app.post("/", function (req, res) {
 app.post("/delete", function (req, res) {
     const checkedItemId = req.body.checkbox;
     const listName = req.body.listName;
-    // Item.deleteOne({ "_id": checkedItemId }, (err) => {
-    //     if (!err) {
-    //         // console.log("Record deleted successfully!");
-    //     }
-    // });
 
     if(listName === "Today"){
 
@@ -146,15 +114,6 @@ app.post("/delete", function (req, res) {
         });
         res.redirect("/");
     }else{
-        // List.findOne({name: listName}, (err, foundList)=>{
-        //     let newId = "ObjectId" + "(" + `"` + checkedItemId + `"` + ")";
-        //     let itemsArr = foundList.items;
-        //     let itemsArr1= itemsArr.filter((element)=>{
-        //         return element._id !== checkedItemId;
-        //     });
-        //     // foundList.save();
-        //     // console.log(itemsArr1);
-        // });
 
         List.findOneAndUpdate({name: listName}, {$pull: {items: {_id: checkedItemId}}}, (err, foundList)=>{
             if (!err) {
